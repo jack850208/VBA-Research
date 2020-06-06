@@ -1,0 +1,113 @@
+Sub test()
+    Dim k As String
+    Dim sp, ep As Integer
+    
+    k = "    jack is a engineer"
+    sp = InStr(k, "jack")
+    ep = InStr(k, "a eng")
+    Debug.Print Trim(Mid(k, sp, ep - sp))
+End Sub
+
+'MAP »P Meas ¤ñ¹ïµ{¦¡
+
+Sub redline()
+    Dim fos, f
+    Dim text, temp
+    Dim linecount, shortcount, opencount As Integer
+    Dim thisline
+    Dim shortpin As String
+    Dim shorparray As Variant
+    
+    Set fos = CreateObject("scripting.filesystemobject")
+    Set f = fos.opentextfile("H:\PE\08_«á¬q»sµ{¸ê®Æ§¨\Jack.Li\0525 MAP\Os-19\MapData\MAP_ES-2030A25-4-A0.txt", 1, -2)
+    
+    'Åª¨ú¨ìmap¨º¦æ
+    Do While InStr(text, "<<  R e s u l t   M a p  >>") = 0
+        text = f.readline
+    Loop
+    f.skipline
+    f.skipline
+
+    Debug.Print f.Line
+    text = f.readline '¥ýÅª¦Ümap²Ä1¦æ
+    linecount = 0 'µ¹©wªì©l­È
+    
+    '³v¦æÅª¨ú
+    Do While InStr(text, ":") <> 0
+        
+        If InStr(text, ":") <> 0 Then
+            temp = InStr(text, ":") - 3 'Â^¨úmap³¡¤À
+            thisline = Mid(text, temp - 118, 118) '¥H":"§@¬°¿ëÃÑ²Å¸¹
+            thisline = Replace(thisline, " ", "") 'ÁY±Æ
+            Debug.Print thisline
+            shortcount = 0 '³]©w·í¦æshort­p¼ÆÅÜ¼Æªì©l­È
+            opencount = 0 '³]©w·í¦æopen­p¼ÆÅÜ¼Æªì©l­È
+            
+            '´M§ä·í¦æshort¦ì¸m
+            Do
+                shortcount = InStr(shortcount + 1, thisline, "S")
+                opencount = InStr(opencount + 1, thisline, "#")
+                '§PÂ_·í¦æshort
+                If shortcount <> 0 Then
+                    Debug.Print "shortpin" & shortcount + linecount * 100
+                    shortpin = shortpin & " " & shortcount + linecount * 100 'Àx¦sshort pin ¸ê®Æ
+                End If
+                '§PÂ_·í¦æopen
+                If opencount <> 0 Then
+                    Debug.Print "openpin" & opencount + linecount * 100
+                End If
+            Loop While shortcount <> 0
+            
+        End If
+        text = f.readline 'Åª¨ú¤U1¦æ
+        linecount = linecount + 1 '¦æ¼Æ+1
+    Loop
+    Debug.Print "end map line fetch"
+    'Debug.Print thisline
+    'Debug.Print InStr(k, "S")
+    'Debug.Print InStr(9, k, "S")
+    'Debug.Print InStr(21, k, "S")
+    shortparray = Split(shortpin) '¤ÀÃþ©ñ¸mshort pin¸ê®Æ
+    
+    For i = LBound(shortparray) To UBound(shortparray)
+        Debug.Print shortparray(i)
+    Next
+    
+    f.Close
+End Sub
+
+
+
+
+Sub testk()
+
+    Dim k(2, 3) As Variant
+    Dim x, y, g As Integer
+    
+    g = 0
+    
+    For y = 0 To 3
+        For x = 0 To 2
+            k(x, y) = g
+            g = g + 1
+        Next
+    Next
+    
+    Range("a1") = k
+
+End Sub
+
+
+Sub num()
+    
+    Dim y As String
+    Dim g As Variant
+    
+    y = "12 12 23 23 23 25"
+    g = Split(y)
+    Debug.Print UBound(g)
+    
+    For i = LBound(g) To UBound(g)
+        Debug.Print g(i)
+    Next
+End Sub
